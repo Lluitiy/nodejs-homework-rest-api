@@ -7,6 +7,7 @@ const schemaUpdate = Joi.object({
 	name: Joi.string(),
 	email: Joi.string(),
 	phone: Joi.string(),
+	favorite: Joi.boolean(),
 });
 
 const schemaAddNew = Joi.object({
@@ -19,14 +20,20 @@ const schemaFavorite = Joi.object({
 });
 
 const userRegistrationSchema = Joi.object({
+	name: Joi.string().min(3).required(),
 	email: Joi.string().pattern(emailRegexp).required(),
 	password: Joi.string().min(8).required(),
-	subscription: Joi.string(),
+	subscription: Joi.string().valid("starter", "pro", "business"),
+	avatarURL: Joi.string(),
 });
 
 const userLoginSchema = Joi.object({
 	email: Joi.string().pattern(emailRegexp).required(),
 	password: Joi.string().min(8).required(),
+});
+
+const updateSubscriptionSchema = Joi.object({
+	subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
 module.exports = {
 	schemaAddNew,
@@ -34,4 +41,5 @@ module.exports = {
 	schemaFavorite,
 	userRegistrationSchema,
 	userLoginSchema,
+	updateSubscriptionSchema,
 };
