@@ -18,12 +18,15 @@ router.post(
 	ctrlWrapper(ctrl.registerUser)
 );
 
+router.get('/verify/:verificationToken', ctrl.verify);
+
 router.post(
 	"/login",
 	validateBody(userLoginSchema),
 	ctrlWrapper(ctrl.loginUser)
 );
 
+router.post('/verify', ctrl.updateVerification)
 router.get("/logout", authorize, ctrlWrapper(ctrl.logout));
 
 router.get("/current", authorize, ctrl.getCurrent);
