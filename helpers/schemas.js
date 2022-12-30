@@ -19,6 +19,9 @@ const schemaFavorite = Joi.object({
 	favorite: Joi.boolean().required(),
 });
 
+const verifyEmailSchema = Joi.object({
+	email: Joi.string().required(),
+});
 const userRegistrationSchema = Joi.object({
 	name: Joi.string().min(3).required(),
 	email: Joi.string().pattern(emailRegexp).required(),
@@ -42,4 +45,5 @@ module.exports = {
 	userRegistrationSchema,
 	userLoginSchema,
 	updateSubscriptionSchema,
+	verifyEmailSchema
 };

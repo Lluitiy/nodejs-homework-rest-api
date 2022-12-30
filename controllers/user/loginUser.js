@@ -10,12 +10,14 @@ const { SECRET_KEY } = process.env;
 
 const loginUser = async (req, res) => {
 	const { email, password } = req.body;
-	
+
 	const user = await User.findOne({ email });
 	if (!user) {
 		throw createError(401, "Email wrong");
 	}
-	
+	if (!user.verify) {
+		throw createError(401, "Email not verified");
+	}
 	const isPasswordMatch = await bcrypt.compare(password, user.password);
 	if (!isPasswordMatch) {
 		throw createError(401, "Wrong password");
@@ -26,7 +28,7 @@ const loginUser = async (req, res) => {
 
 	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
 	await User.findByIdAndUpdate(user._id, { token });
-	
+
 	res.json({
 		token,
 		user: {
